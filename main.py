@@ -169,7 +169,7 @@ def main():
     print("\nState Mention Counts:")
     print(state_df)
 
-    # Save everything to a CSV file
+    # Save everything to a  CSV file
     df.to_csv('company_data_with_mentions.csv', index=False)
 
 # Run the program
