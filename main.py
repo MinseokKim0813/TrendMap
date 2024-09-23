@@ -12,6 +12,10 @@ from datetime import datetime, timedelta
 
 # NYT yek ipa -> reversed for security so people can't search for it
 nyt = 'IvO8usKBicu4cnuNlKTF3069zi6aKoSp'
+# Number of companies to search
+LIMIT = 10
+# Number of days to search for articles
+DAYS = 7
 
 # Function to scrape the first 10 company names from the website
 def scrape_companies():
@@ -21,7 +25,7 @@ def scrape_companies():
     # Error Handling: Check if the request was successful
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'html.parser')
-        companies = soup.find_all('div', class_='company-name', limit=10)
+        companies = soup.find_all('div', class_='company-name', limit=LIMIT)
 
         company_names = []
         print("Top 10 companies by earnings:")
@@ -128,7 +132,7 @@ def get_ticker_symbol(company_name):
 # Main function to run the entire process and generate a dataset
 def main():
     company_names = scrape_companies()  # Scrape the top 10 companies
-    days = 7  # Set the number of days for the NYT API search
+    days = DAYS  # Set the number of days for the NYT API search
     mention_counts = count_company_mentions(company_names, days)  # Get the mention counts
 
     data = []
