@@ -1,6 +1,5 @@
+python-dotenv
 requests
 beautifulsoup4
 pandas
 yahooquery
-selenium
-webdriver-manager

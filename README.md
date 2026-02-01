@@ -5,7 +5,7 @@
 This project gathers real-time data from three main sources:
 
 1. **New York Times API** - to collect article headlines mentioning specific companies.
-2. **Static Web Scraping** - to extract the top 10 most profitable American companies from [companiesmarketcap.com](https://companiesmarketcap.com/usa/most-profitable-american-companies/).
+2. **Static Web Scraping** - to extract the top N most profitable American companies from [companiesmarketcap.com](https://companiesmarketcap.com/usa/most-profitable-american-companies/) (N is chosen by you when you run the program).
 3. **Dynamic Web Scraping** - to gather additional company details such as industry and state from SEC EDGAR Search Webpage.
 
 The data collected includes the names of the top companies, the number of media mentions they receive in New York Times articles over a user-defined period (e.g., 7 days), as well as industry and state information from SEC EDGAR.
@@ -39,23 +39,44 @@ Ensure that you have the following installed:
 - Python 3.x
 - pip (Python package manager)
 
-### Steps to Run:
+### Environment variables
+
+The app reads configuration from a `.env` file. Use the sample file as a template:
+
+**Expected `.env` format:**
+
+| Variable  | Required | Description                                                                                                                                           |
+| --------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nyt`     | Yes      | New York Times API key. Get one at [developer.nytimes.com](https://developer.nytimes.com/get-started).                                                |
+| `agentID` | Yes      | Contact for SEC API (e.g. your email). SEC requires this in the User-Agent or requests may be blocked. Format: `your-email@domain.com` or `YourName`. |
+
+**Example `.env` (use your own values):**
+
+```env
+nyt=your-nyt-api-key-here
+agentID=your-email@example.com
+```
+
+### Steps to Run
 
 1. Clone the repository.
-2. Install the required packages using `pip install -r requirements.txt`.
-3. Replace the `nyt_api_key` in the code with your own API key from the [New York Times API](https://developer.nytimes.com/faq#a11).
-4. Run the `main.py` file.
+2. Install the required packages: `pip install -r requirements.txt`.
+3. Create your `.env` from `.env.example` and add your NYT API key and contact (see above).
+4. Run: `python main.py`.
 
-The program will scrape the top 10 companies, collect article headlines from the New York Times, and retrieve industry and state information from SEC EDGAR.
-You can adjust the number of companies and number of days for article search, but higher number takes hight time.
+When you run the program, it will:
+
+- **Explain** what it does (fetch top companies, search NYT articles, look up SEC data, save to CSV).
+- **Prompt you for two values:**
+  - **Days to search** – How many days back to search for NYT articles (e.g. `7` for the past week).
+  - **Number of top companies** – How many of the most profitable US companies to include (e.g. `10`).
+
+It will then scrape that many companies, collect article headlines from the New York Times over that period, and retrieve industry and state information from SEC EDGAR. Higher values for days or companies take longer to run.
 
 ### Requirements
 
-Make sure to install the following dependencies:
+Install dependencies with:
 
-- requests
-- beautifulsoup4
-- pandas
-- yahooquery
-- selenium
-- webdriver-manager
+```bash
+pip install -r requirements.txt
+```
